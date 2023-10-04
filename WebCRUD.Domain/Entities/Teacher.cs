@@ -5,15 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebCRUD.Domain.Entities;
 
 namespace WebCRUD.Domain.Models
 {
-    public  class User
+    public  class Teacher
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public List<Student>Students { get; set; }
     }
 }

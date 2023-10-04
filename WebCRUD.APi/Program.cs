@@ -15,8 +15,8 @@ namespace WebCRUD.APi
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddSingleton<IRepostory<User>,Repository>();
-            builder.Services.AddSingleton<Iservice<User>,Service>();
+            builder.Services.AddSingleton<IRepostory<Teacher>,RepositoryForteachers>();
+            builder.Services.AddSingleton<Iservice<Teacher>,ServiceForTeachers>();
 
 
             var app = builder.Build();

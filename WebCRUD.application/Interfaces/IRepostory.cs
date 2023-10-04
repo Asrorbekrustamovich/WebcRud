@@ -8,7 +8,7 @@ namespace WebCRUD.application.Interfaces
 {
     public interface IRepostory<T> where T : class
     {
-        public bool create(T entity);
+        public T create(T entity);
         public bool update(T entity);
         public bool delete(int deleteid);
         public IEnumerable<T> Getall();

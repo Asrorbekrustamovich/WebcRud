@@ -4,13 +4,13 @@ using WebCRUD.Domain.Models;
 
 [Route("api/[controller]")]
 [ApiController]
-public class HomeController : Controller
+public class TeacherController : Controller
 {
-    private readonly Iservice<User> _iservice;
+    private readonly Iservice<Teacher> _iservice;
 
-    public HomeController(Iservice<User> service)
+    public TeacherController(Iservice<Teacher> service)
     {
-        _iservice = service;
+      
     }
 
     [Route("GetAllCars"), HttpGet]
@@ -31,9 +31,9 @@ public class HomeController : Controller
     }
 
     [HttpPost("Create")]
-    public IActionResult Create(User user)
+    public IActionResult Create(Teacher teacher)
     {
-        var result = _iservice.Create(user);
+        var result = _iservice.Create(teacher);
         return Ok(result);
     }
 
@@ -45,9 +45,9 @@ public class HomeController : Controller
     }
 
     [HttpPatch("Update")]
-    public IActionResult Update(User user)
+    public IActionResult Update(Teacher teacher)
     {
-        var result = _iservice.Update(user);
+        var result = _iservice.Update(teacher);
         return Ok(result);
     }
 }
