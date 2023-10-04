@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebCRUD.Infarstructure.Migrations
 {
     /// <inheritdoc />
-    public partial class intidb : Migration
+    public partial class initdbcon : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
