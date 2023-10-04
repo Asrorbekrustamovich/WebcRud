@@ -12,6 +12,6 @@ namespace WebCRUD.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string FUllname { get; set; }
-        public List<Teacher>Teachers { get; set; }
+        public List<Teacher>?Teachers { get; set; }
     }
 }
