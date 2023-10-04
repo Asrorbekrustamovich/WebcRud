@@ -5,7 +5,7 @@ using WebCRUD.Domain.Models;
 
 namespace WebCRUD.APi.Controllers
 {
-    [Route("api/[controller")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentController : Controller
     {
@@ -13,10 +13,10 @@ namespace WebCRUD.APi.Controllers
 
         public StudentController(Iservice<Student> service)
         {
-
+            _iservice = service;
         }
 
-        [Route("GetAllCars"), HttpGet]
+        [Route("GetAllStudents"), HttpGet]
         public IActionResult Getall()
         {
             return Ok(_iservice.Getall());

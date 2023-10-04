@@ -72,12 +72,9 @@ namespace WebCRUD.Infarstructure.Repository
             var updatedobject = _context.Students.Find(entity.Id);
             if (updatedobject != null)
             {
-                Student Student = new Student()
-                {
-                    Name= entity.Name,
-                    FUllname= entity.FUllname
-                };
-                _context.Students.Update(Student);
+                updatedobject.Teachers = entity.Teachers;
+                updatedobject.Fullname = entity.Fullname;
+                _context.Students.Update(updatedobject);
                 return true;
             }
             return false;

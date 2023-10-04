@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebCRUD.Infarstructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initdbcon : Migration
+    public partial class initdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,7 @@ namespace WebCRUD.Infarstructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    FUllname = table.Column<string>(type: "text", nullable: false)
+                    Fullname = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

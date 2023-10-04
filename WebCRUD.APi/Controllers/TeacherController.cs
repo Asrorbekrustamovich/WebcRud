@@ -10,10 +10,10 @@ public class TeacherController : Controller
 
     public TeacherController(Iservice<Teacher> service)
     {
-      
+      _iservice = service;
     }
 
-    [Route("GetAllCars"), HttpGet]
+    [Route("GetAllTeachers"), HttpGet]
     public IActionResult Getall()
     {
         return Ok(_iservice.Getall());
