@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace WebCRUD.Domain.Models
 {
-    public class StudentCreateDto
+    public class StudentGetDTO
     {
-        public string Fullname { get; set; }
-        public IEnumerable<int> teacherids { get; set; }    
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebCRUD.application.Interfaces;
+using WebCRUD.Domain.Entities;
 using WebCRUD.Domain.Models;
 
 [Route("api/[controller]")]
@@ -31,9 +32,20 @@ public class TeacherController : Controller
     }
 
     [HttpPost("Create")]
-    public IActionResult Create(Teacher teacher)
+    public IActionResult Create(TeacherCreateDTO teacher)
     {
-        var result = _iservice.Create(teacher);
+        Teacher teacher1 = new Teacher()
+        {
+
+            Email = teacher.Email,
+            Name = teacher.Name,
+            Password = teacher.Password,
+            Students = teacher.StudentIds.Select(x => new Student
+            {
+                Id = x
+            }).ToList(),
+        };
+        var result = _iservice.Create(teacher1);
         return Ok(result);
     }
 

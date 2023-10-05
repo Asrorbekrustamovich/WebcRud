@@ -34,9 +34,15 @@ namespace WebCRUD.APi.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(Student Student)
+        public IActionResult Create(StudentCreateDto StudentDTO)
         {
-            var result = _iservice.Create(Student);
+            Student student = new Student()
+            {
+                Fullname = StudentDTO.Fullname,
+                Teachers = StudentDTO.teacherids.Select(x => new Teacher
+                { Id = x }).ToList()
+            };
+            var result = _iservice.Create(student);
             return Ok(result);
         }
 
