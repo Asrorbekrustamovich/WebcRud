@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebCRUD.application.Interfaces;
+﻿using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
 
 namespace WebCRUD.Infarstructure.Service

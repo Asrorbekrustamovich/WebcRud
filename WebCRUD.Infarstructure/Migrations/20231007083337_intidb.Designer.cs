@@ -11,8 +11,8 @@ using WebCRUD.Infarstructure.Mydbcontext;
 namespace WebCRUD.Infarstructure.Migrations
 {
     [DbContext(typeof(MyWebapiContext))]
-    [Migration("20231004133627_initdb")]
-    partial class initdb
+    [Migration("20231007083337_intidb")]
+    partial class intidb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

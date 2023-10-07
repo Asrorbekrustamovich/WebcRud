@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebCRUD.application.Interfaces;
+﻿using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
-using WebCRUD.Domain.Models;
 using WebCRUD.Infarstructure.Mydbcontext;
 
 namespace WebCRUD.Infarstructure.Repository
@@ -36,6 +30,7 @@ namespace WebCRUD.Infarstructure.Repository
             if (deletedobject != null)
             {
                 _context.Students.Remove(deletedobject);
+                _context.SaveChanges();
                 return true;
             }
             else
@@ -72,7 +67,6 @@ namespace WebCRUD.Infarstructure.Repository
             var updatedobject = _context.Students.Find(entity.Id);
             if (updatedobject != null)
             {
-                updatedobject.Teachers = entity.Teachers;
                 updatedobject.Fullname = entity.Fullname;
                 _context.Students.Update(updatedobject);
                 return true;

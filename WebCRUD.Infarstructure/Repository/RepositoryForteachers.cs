@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebCRUD.application.Interfaces;
+﻿using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Models;
 using WebCRUD.Infarstructure.Mydbcontext;
 
@@ -34,6 +29,7 @@ namespace WebCRUD.Infarstructure.Repository
             if(deletedobject != null)
             {
                 _context.Teachers.Remove(deletedobject);
+                _context.SaveChanges();
                 return true;
             }
             else
@@ -77,6 +73,7 @@ namespace WebCRUD.Infarstructure.Repository
                     Password= entity.Password,
                 };
                 _context.Teachers.Update(teacher);
+                _context.SaveChanges();
                 return true;
             }
             return false;

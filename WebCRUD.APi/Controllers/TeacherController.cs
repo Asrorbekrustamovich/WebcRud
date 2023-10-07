@@ -7,8 +7,7 @@ using WebCRUD.Domain.Models;
 [ApiController]
 public class TeacherController : Controller
 {
-    private readonly Iservice<Teacher> _iservice;
-
+    private readonly Iservice<Teacher> _iservice;  
     public TeacherController(Iservice<Teacher> service)
     {
       _iservice = service;
@@ -27,7 +26,7 @@ public class TeacherController : Controller
         if (user != null)
         {
             return Ok(user);
-        }
+        }   
         return NotFound("User not found");
     }
 
@@ -57,9 +56,16 @@ public class TeacherController : Controller
     }
 
     [HttpPatch("Update")]
-    public IActionResult Update(Teacher teacher)
+    public IActionResult Update(TeacherUPdateDtO teacher)
     {
-        var result = _iservice.Update(teacher);
+        Teacher studentUpdate = new Teacher()
+        {
+            Id = teacher.Id,
+            Name = teacher.Name,
+            Password = teacher.Password,
+
+        };
+        var result = _iservice.Update(studentUpdate);
         return Ok(result);
     }
 }
