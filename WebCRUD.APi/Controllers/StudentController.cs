@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
 using WebCRUD.Domain.Models;
@@ -10,10 +11,12 @@ namespace WebCRUD.APi.Controllers
     public class StudentController : Controller
     {
         private readonly Iservice<Student> _iservice;
+        private readonly IMapper _mapper;
 
-        public StudentController(Iservice<Student> service)
+        public StudentController(Iservice<Student> service, IMapper mapper)
         {
             _iservice = service;
+            _mapper = mapper;
         }
 
         [Route("GetAllStudents"), HttpGet]
@@ -36,12 +39,7 @@ namespace WebCRUD.APi.Controllers
         [HttpPost("Create")]
         public IActionResult Create(StudentCreateDto StudentDTO)
         {
-            Student student = new Student()
-            {
-                Fullname = StudentDTO.Fullname,
-                Teachers = StudentDTO.teacherids.Select(x => new Teacher
-                { Id = x }).ToList()
-            };
+            Student student = _mapper.Map<Student>(StudentDTO);
             var result = _iservice.Create(student);
             return Ok(result);
         }
