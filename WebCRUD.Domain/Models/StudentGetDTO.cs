@@ -9,5 +9,8 @@ namespace WebCRUD.Domain.Models
     public class StudentGetDTO
     {
 
+        public int Id { get; set; }
+        public string Fullname { get; set; }
+        public IEnumerable<int> teacherids { get; set; }
     }
 }

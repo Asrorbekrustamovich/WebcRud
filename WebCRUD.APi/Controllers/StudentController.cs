@@ -22,16 +22,19 @@ namespace WebCRUD.APi.Controllers
         [Route("GetAllStudents"), HttpGet]
         public IActionResult Getall()
         {
-            return Ok(_iservice.Getall());
+            var StudentList = _iservice.Getall();
+            var result = _mapper.Map<IEnumerable<StudentGetDTO>>(StudentList);
+            return Ok(result);
         }
 
         [HttpGet("Getbyid")]
         public IActionResult Getbyid(int id)
         {
             var user = _iservice.GetById(id);
+            var userbyid=_mapper.Map<StudentGetDTO>(user);
             if (user != null)
             {
-                return Ok(user);
+                return Ok(userbyid);
             }
             return NotFound("User not found");
         }
@@ -40,8 +43,9 @@ namespace WebCRUD.APi.Controllers
         public IActionResult Create(StudentCreateDto StudentDTO)
         {
             Student student = _mapper.Map<Student>(StudentDTO);
+            StudentGetDTO student1 = _mapper.Map<StudentGetDTO>(student);
             var result = _iservice.Create(student);
-            return Ok(result);
+            return Ok(student1);
         }
 
         [HttpDelete("Delete")]

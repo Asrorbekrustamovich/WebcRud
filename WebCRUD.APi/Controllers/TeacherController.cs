@@ -19,7 +19,9 @@ public class TeacherController : Controller
     [Route("GetAllTeachers"), HttpGet]
     public IActionResult Getall()
     {
-        return Ok(_iservice.Getall());
+        var getall = _iservice.Getall();
+        var forshowing=_mapper.Map< IEnumerable<TeacherGetDto>>(getall);
+        return Ok(forshowing);
     }
 
     [HttpGet("Getbyid")]
@@ -39,7 +41,7 @@ public class TeacherController : Controller
         Teacher teacher1 = _mapper.Map<Teacher>(teacher);
        
         var result = _iservice.Create(teacher1);
-        return Ok(result);
+        return Ok(teacher);
     }
 
     [HttpDelete("Delete")]

@@ -17,6 +17,10 @@ namespace WebCRUD.application.Mapping
             CreateMap<TeacherCreateDTO, Teacher>().ForMember(dest => dest.Password, res => res.MapFrom(src => src.parol));
             CreateMap<StudentUpdateDto, Student>();
             CreateMap<TeacherUPdateDtO, Teacher>();
+            CreateMap<Student,StudentGetDTO>();
+            CreateMap<Teacher,TeacherGetDto>();
+           
+          
            
         }
     }

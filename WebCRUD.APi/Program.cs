@@ -23,7 +23,7 @@ namespace WebCRUD.APi
             builder.Services.AddScoped<IRepostory<Teacher>,RepositoryForteachers>();
             builder.Services.AddScoped<Iservice<Teacher>,ServiceForTeachers>();
             builder.Services.AddScoped<Iservice<Student>,ServiceForStudent>();
-            builder.Services.AddScoped<IRepostory<Student>,RepositoryForStudents>();
+            builder.Services.AddScoped<IRepostory<Student>,RepositoryForStudents>();      
             builder.Services.AddDbContext<MyWebapiContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AppmappingService();
 

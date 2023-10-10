@@ -11,8 +11,8 @@ using WebCRUD.Infarstructure.Mydbcontext;
 namespace WebCRUD.Infarstructure.Migrations
 {
     [DbContext(typeof(MyWebapiContext))]
-    [Migration("20231007083337_intidb")]
-    partial class intidb
+    [Migration("20231010135745_initdb")]
+    partial class initdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,15 @@ namespace WebCRUD.Infarstructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
