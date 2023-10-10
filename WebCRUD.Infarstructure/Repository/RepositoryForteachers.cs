@@ -70,7 +70,7 @@ namespace WebCRUD.Infarstructure.Repository
                 {
                     Name = entity.Name,
                     Email= entity.Email,
-                    Password= entity.Password,
+                    Password= entity.Password
                 };
                 _context.Teachers.Update(teacher);
                 _context.SaveChanges();

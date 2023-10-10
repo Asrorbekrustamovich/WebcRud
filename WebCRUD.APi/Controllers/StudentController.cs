@@ -54,12 +54,7 @@ namespace WebCRUD.APi.Controllers
         [HttpPatch("Update")]
         public IActionResult Update(StudentUpdateDto Student)
         {
-            Student studentToUpdate = new Student()
-            {
-                Fullname = Student.Fullname,
-                Id = Student.Id,
-                Teachers = Student.teacherids.Select(x => new Teacher { Id = x }).ToList()
-            };
+            Student studentToUpdate = _mapper.Map<Student>(Student);
             var result = _iservice.Update(studentToUpdate);
             return Ok(result);
         }

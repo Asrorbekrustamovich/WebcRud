@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
 using WebCRUD.Domain.Models;
@@ -7,10 +8,12 @@ using WebCRUD.Domain.Models;
 [ApiController]
 public class TeacherController : Controller
 {
-    private readonly Iservice<Teacher> _iservice;  
-    public TeacherController(Iservice<Teacher> service)
+    private readonly Iservice<Teacher> _iservice;
+    private readonly IMapper _mapper;
+    public TeacherController(Iservice<Teacher> service, IMapper mapper)
     {
-      _iservice = service;
+        _iservice = service;
+        _mapper = mapper;
     }
 
     [Route("GetAllTeachers"), HttpGet]
@@ -33,17 +36,8 @@ public class TeacherController : Controller
     [HttpPost("Create")]
     public IActionResult Create(TeacherCreateDTO teacher)
     {
-        Teacher teacher1 = new Teacher()
-        {
-
-            Email = teacher.Email,
-            Name = teacher.Name,
-            Password = teacher.Password,
-            Students = teacher.StudentIds.Select(x => new Student
-            {
-                Id = x
-            }).ToList(),
-        };
+        Teacher teacher1 = _mapper.Map<Teacher>(teacher);
+       
         var result = _iservice.Create(teacher1);
         return Ok(result);
     }
@@ -58,13 +52,7 @@ public class TeacherController : Controller
     [HttpPatch("Update")]
     public IActionResult Update(TeacherUPdateDtO teacher)
     {
-        Teacher studentUpdate = new Teacher()
-        {
-            Id = teacher.Id,
-            Name = teacher.Name,
-            Password = teacher.Password,
-
-        };
+        Teacher studentUpdate = _mapper.Map<Teacher>(teacher);
         var result = _iservice.Update(studentUpdate);
         return Ok(result);
     }

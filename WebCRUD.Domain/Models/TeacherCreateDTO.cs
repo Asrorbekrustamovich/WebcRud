@@ -10,7 +10,7 @@ namespace WebCRUD.Domain.Models
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public int parol { get; set; }
         public IEnumerable<int> StudentIds { get; set; }
     }
 }

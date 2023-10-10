@@ -13,7 +13,11 @@ namespace WebCRUD.application.Mapping
     {
         public Automapper()
         {
-            CreateMap<StudentCreateDto, Student>();
+            CreateMap<StudentCreateDto, Student>().ForMember(dest => dest.Fullname, res => res.MapFrom(src => src.Fullname));
+            CreateMap<TeacherCreateDTO, Teacher>().ForMember(dest => dest.Password, res => res.MapFrom(src => src.parol));
+            CreateMap<StudentUpdateDto, Student>();
+            CreateMap<TeacherUPdateDtO, Teacher>();
+           
         }
     }
 }
