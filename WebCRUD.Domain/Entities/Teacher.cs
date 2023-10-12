@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using WebCRUD.Domain.Entities;
 
@@ -15,6 +16,6 @@ namespace WebCRUD.Domain.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public ICollection<Student?> Students { get; set; }
+        public IEnumerable<Student?> Students { get; set; }
     }
 }

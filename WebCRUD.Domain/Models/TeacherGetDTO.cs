@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebCRUD.Domain.Models
 {
-    public class StudentCreateDto
+    public class TeacherGetDTO
     {
-        public string Fullname { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public IEnumerable<int> teacherids { get; set; }    
+        public IEnumerable<int> StudentIds { get; set; }
     }
 }

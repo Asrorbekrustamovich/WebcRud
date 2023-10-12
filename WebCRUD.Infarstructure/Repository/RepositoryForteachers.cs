@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,9 @@ namespace WebCRUD.Infarstructure.Repository
 
         public Teacher create(Teacher entity)
         {
-            if(entity != null)
-            {
-                _context.Teachers.Add(entity);
+                _context.Attach(entity);
                 _context.SaveChanges();
                 return entity;
-            }
-            return null;
         }
 
         public bool delete(int deleteid)
@@ -34,6 +31,7 @@ namespace WebCRUD.Infarstructure.Repository
             if(deletedobject != null)
             {
                 _context.Teachers.Remove(deletedobject);
+                _context.SaveChanges();
                 return true;
             }
             else
@@ -44,7 +42,7 @@ namespace WebCRUD.Infarstructure.Repository
 
         public IEnumerable<Teacher> Getall()
         {
-            var getall = _context.Teachers;
+            var getall = _context.Teachers.Include(x => x.Students);
             if(getall != null)
             {
                 return getall;
@@ -54,7 +52,7 @@ namespace WebCRUD.Infarstructure.Repository
 
         public Teacher getbyid(int id)
         {
-            var getbyid= _context.Teachers.Find(id);
+            Teacher getbyid = _context.Teachers.Include(x=>x.Students).First(x=>x.Id==id);
             if (getbyid != null)
             {
                 return getbyid;
@@ -77,6 +75,7 @@ namespace WebCRUD.Infarstructure.Repository
                     Password= entity.Password,
                 };
                 _context.Teachers.Update(teacher);
+                _context.SaveChanges();
                 return true;
             }
             return false;

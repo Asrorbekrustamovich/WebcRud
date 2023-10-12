@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
 using WebCRUD.Domain.Models;
@@ -10,40 +11,42 @@ namespace WebCRUD.APi.Controllers
     public class StudentController : Controller
     {
         private readonly Iservice<Student> _iservice;
+        private readonly Iservice<Teacher> _tiservice;
+        private readonly IMapper _mapper;
 
-        public StudentController(Iservice<Student> service)
+        public StudentController(Iservice<Student> service, IMapper mapper)
         {
             _iservice = service;
+            _mapper = mapper;
         }
 
         [Route("GetAllStudents"), HttpGet]
-        public IActionResult Getall()
+        public IEnumerable<StudentGetDTO> Getall()
         {
-            return Ok(_iservice.Getall());
+            var students = _iservice.Getall();
+            IEnumerable<StudentGetDTO> studentsgetall = _mapper.Map< IEnumerable<StudentGetDTO>>(students);
+            return studentsgetall;
         }
 
         [HttpGet("Getbyid")]
         public IActionResult Getbyid(int id)
         {
             var user = _iservice.GetById(id);
+            var result=_mapper.Map<StudentGetDTO>(user);
             if (user != null)
             {
-                return Ok(user);
+                return Ok(result);
             }
             return NotFound("User not found");
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(StudentCreateDto StudentDTO)
+        public IActionResult Create(StudentCreateDto StudentCreateDTO)
         {
-            Student student = new Student()
-            {
-                Fullname = StudentDTO.Fullname,
-                Teachers = StudentDTO.teacherids.Select(x => new Teacher
-                { Id = x }).ToList()
-            };
-            var result = _iservice.Create(student);
-            return Ok(result);
+            Student student = _mapper.Map<Student>(StudentCreateDTO);
+             var result=_iservice.Create(student);
+            var result2 = _mapper.Map<StudentGetDTO>(result);
+            return Ok(result2);
         }
 
         [HttpDelete("Delete")]
@@ -54,10 +57,12 @@ namespace WebCRUD.APi.Controllers
         }
 
         [HttpPatch("Update")]
-        public IActionResult Update(Student Student)
+        public IActionResult Update(StudentUpdateDtO Student)
         {
-            var result = _iservice.Update(Student);
-            return Ok(result);
+            var res1 = _mapper.Map<Student>(Student);
+            var result = _iservice.Update(res1);
+            var result2 = _mapper.Map<StudentGetDTO>(res1);
+            return Ok(result2);
         }
     }
 }
