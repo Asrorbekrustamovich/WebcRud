@@ -32,7 +32,7 @@ namespace WebCRUD.APi
             builder.Services.AddScoped<IRepostory<Student>,RepositoryForStudents>();
             builder.Services.AddDbContext<MyWebapiContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddmappingService();
-
+                
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
