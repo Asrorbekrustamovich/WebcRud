@@ -10,6 +10,10 @@ using WebCRUD.Infarstructure.Repository;
 using WebCRUD.Infarstructure.Service;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using WebCRUD.Domain.Iassemblymarker;
 
 namespace WebCRUD.APi
 {
@@ -19,10 +23,10 @@ namespace WebCRUD.APi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            builder.Services.AddControllers();//.AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            //});
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -32,7 +36,8 @@ namespace WebCRUD.APi
             builder.Services.AddScoped<IRepostory<Student>,RepositoryForStudents>();
             builder.Services.AddDbContext<MyWebapiContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddmappingService();
-
+            builder.Services.AddFluentValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
@@ -47,7 +52,7 @@ namespace WebCRUD.APi
 
             app.MapControllers();
 
-            app.Run();
+              app.Run();
         }
     }
 }

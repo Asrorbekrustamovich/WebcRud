@@ -67,16 +67,16 @@ namespace WebCRUD.Infarstructure.Repository
 
         public bool update(Student entity)
         {
-            var updatedobject = _context.Students.Find(entity.Id);
-            if (updatedobject != null)
-            {
-                updatedobject.Teachers = entity.Teachers;
-                updatedobject.Fullname = entity.Fullname;
-                _context.Students.Update(updatedobject);
+                Student newstudent=new Student();
+                newstudent.Id = entity.Id;
+
+                newstudent.Email = entity.Email;
+                newstudent.Password = entity.Password;
+                newstudent.Fullname = entity.Fullname;
+
+                _context.Students.Update(newstudent);
                 _context.SaveChanges();
                 return true;
-            }
-            return false;
         }
     }
 }
