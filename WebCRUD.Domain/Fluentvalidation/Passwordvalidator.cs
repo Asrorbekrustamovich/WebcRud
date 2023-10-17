@@ -13,7 +13,7 @@ namespace WebCRUD.Domain.Fluentvalidation
                     bool isTruePassword = password.Contains("123456");
                     return isTruePassword;
                 })
-                .WithMessage("{PropertyName} Bir kun orag`ida ma`lumot kiritish lozim");
+                .WithMessage("{PropertyName} Password noto`gri");
         }
     }
 }
