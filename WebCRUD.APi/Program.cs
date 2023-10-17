@@ -37,6 +37,7 @@ namespace WebCRUD.APi
             builder.Services.AddDbContext<MyWebapiContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddmappingService();
             builder.Services.AddFluentValidation();
+            builder.Services.AddMemoryCache();
             builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
