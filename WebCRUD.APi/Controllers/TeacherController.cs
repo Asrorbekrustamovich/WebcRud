@@ -25,19 +25,19 @@ public class TeacherController : Controller
     }
 
     [Route("GetAllTeachers"), HttpGet]
-    public IActionResult Getall()
-    {
-        string allteacher = _redis.GetString("Pupil");
-        var option = new DistributedCacheEntryOptions()
-        {
-            AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10),
-            SlidingExpiration = TimeSpan.FromSeconds(10)
-        }; var getall = _iservice.Getall();
-        string converting = JsonConvert.SerializeObject(getall);
-        _redis.SetString("Pupil", converting, option);
-        IEnumerable<TeacherGetDTO> result = _mapper.Map<IEnumerable<TeacherGetDTO>>(getall);
-        return Ok(result);
-    }
+    //public IActionResult Getall()
+    //{
+    //    //string allteacher = _redis.GetString("Pupil");
+    //    //var option = new DistributedCacheEntryOptions()
+    //    //{
+    //    //    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10),
+    //    //    SlidingExpiration = TimeSpan.FromSeconds(10)
+    //    //}; var getall = _iservice.Getall();
+    //    //string converting = JsonConvert.SerializeObject(getall);
+    //    //_redis.SetString("Pupil", converting, option);
+    //    //IEnumerable<TeacherGetDTO> result = _mapper.Map<IEnumerable<TeacherGetDTO>>(getall);
+    //    //return Ok(result);
+    //}
 
     [HttpGet("Getbyid")]
     public IActionResult Getbyid(int id)
