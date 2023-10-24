@@ -1,26 +1,22 @@
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using WebCRUD.application.Interfaces;
 using WebCRUD.application.mapping;
 using WebCRUD.Domain.Entities;
+using WebCRUD.Domain.Iassemblymarker;
 using WebCRUD.Domain.Models;
 using WebCRUD.Infarstructure.Mydbcontext;
 using WebCRUD.Infarstructure.Repository;
 using WebCRUD.Infarstructure.Service;
-using Newtonsoft.Json;
-using System.Text.Json.Serialization;
-using System.ComponentModel.DataAnnotations;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using WebCRUD.Domain.Iassemblymarker;
 
 namespace WebCRUD.APi
 {
     public class Program
     {
         public static void Main(string[] args)
-        {
+         {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();//.AddJsonOptions(options =>
@@ -39,6 +35,12 @@ namespace WebCRUD.APi
             builder.Services.AddFluentValidation();
             builder.Services.AddMemoryCache();
             builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
+            builder.Services.AddResponseCaching();
+            builder.Services.AddStackExchangeRedisCache(opt =>
+            {
+                opt.Configuration = "localhost:6379";
+            }
+          );
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
@@ -49,6 +51,7 @@ namespace WebCRUD.APi
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseResponseCaching();
 
 
             app.MapControllers();

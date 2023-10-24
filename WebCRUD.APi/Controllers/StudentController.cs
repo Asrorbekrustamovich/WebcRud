@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
 using WebCRUD.Domain.Models;
@@ -13,19 +17,38 @@ namespace WebCRUD.APi.Controllers
         private readonly Iservice<Student> _iservice;
         private readonly Iservice<Teacher> _tiservice;
         private readonly IMapper _mapper;
+        private readonly IDistributedCache _redis;
 
-        public StudentController(Iservice<Student> service, IMapper mapper)
+        public StudentController(Iservice<Student> service, IMapper mapper,IDistributedCache distributedCache)
         {
             _iservice = service;
             _mapper = mapper;
+            _redis = distributedCache;
         }
-
+        [ResponseCache(Duration =30)]
         [Route("GetAllStudents"), HttpGet]
         public IEnumerable<StudentGetDTO> Getall()
         {
-            var students = _iservice.Getall();
-            IEnumerable<StudentGetDTO> studentsgetall = _mapper.Map< IEnumerable<StudentGetDTO>>(students);
-            return studentsgetall;
+            string? allstudent = _redis.GetString("Pupil");
+            IEnumerable<StudentGetDTO>? newallstudent;
+
+            if (allstudent == null)
+            {
+                var s = _iservice.Getall();
+                newallstudent = _mapper.Map<IEnumerable<StudentGetDTO>>(s);
+                var option = new DistributedCacheEntryOptions()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10),
+                    SlidingExpiration = TimeSpan.FromSeconds(10)
+                };
+                string converting = JsonConvert.SerializeObject(newallstudent);
+                _redis.SetString("Pupil", converting, option);
+            }
+            else
+            {
+                newallstudent = JsonConvert.DeserializeObject<IEnumerable<StudentGetDTO>>(allstudent);
+            }
+            return newallstudent;
         }
 
         [HttpGet("Getbyid")]

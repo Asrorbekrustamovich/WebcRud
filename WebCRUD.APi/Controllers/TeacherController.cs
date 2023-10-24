@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using WebCRUD.application.Interfaces;
 using WebCRUD.Domain.Entities;
 using WebCRUD.Domain.Models;
@@ -12,18 +14,27 @@ public class TeacherController : Controller
     private readonly Iservice<Teacher> _iservice;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _cashe;
+    private readonly IDistributedCache _redis;
 
-    public TeacherController(Iservice<Teacher> service, IMapper mapper, IMemoryCache cashe = null)
+    public TeacherController(Iservice<Teacher> service, IMapper mapper, IMemoryCache cashe, IDistributedCache redis)
     {
         _iservice = service;
         _mapper = mapper;
         _cashe = cashe;
+        _redis = redis;
     }
 
     [Route("GetAllTeachers"), HttpGet]
     public IActionResult Getall()
     {
-        var getall = _iservice.Getall();
+        string allteacher = _redis.GetString("Pupil");
+        var option = new DistributedCacheEntryOptions()
+        {
+            AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10),
+            SlidingExpiration = TimeSpan.FromSeconds(10)
+        }; var getall = _iservice.Getall();
+        string converting = JsonConvert.SerializeObject(getall);
+        _redis.SetString("Pupil", converting, option);
         IEnumerable<TeacherGetDTO> result = _mapper.Map<IEnumerable<TeacherGetDTO>>(getall);
         return Ok(result);
     }
@@ -64,10 +75,11 @@ public class TeacherController : Controller
         return Ok(result2);
     }
     [HttpGet("Getforcashing")]
+    [ResponseCache(Duration = 6)]
     public IActionResult GetforCashing()
     {
         string cashekey = "Hello";
-        string Cashedata = "ming your own business";
+        string Cashedata = "mind your own business";
         var option = new MemoryCacheEntryOptions
         {
 
@@ -77,6 +89,7 @@ public class TeacherController : Controller
             Priority = CacheItemPriority.Normal,
             //AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(7)
         };
+       
         _cashe.Set(cashekey,Cashedata,option);
         string? result1=_cashe?.Get(cashekey)?.ToString();
         Thread.Sleep(4000);
